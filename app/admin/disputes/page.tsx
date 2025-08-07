@@ -129,7 +129,7 @@ export default async function AdminDisputesPage() {
 								<div>
 									<div className="text-sm text-gray-400 mb-1">Evidence</div>
 									<div className="grid grid-cols-4 gap-2">
-										{JSON.parse(dispute.evidence).map((url: string, i: number) => (
+										{(JSON.parse(dispute.evidence) as string[]).map((url, i) => (
 											<img
 												key={i}
 												src={url}
