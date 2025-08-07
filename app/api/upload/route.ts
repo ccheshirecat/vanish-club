@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       cloudinary.uploader.upload(
         dataURI,
         {
-          folder: "vanish-club",
+          folder: "wrkx-club",
         },
         (error, result) => {
           if (error) reject(error)

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Listings - Vanish Marketplace',
-  description: 'Browse available listings on Vanish Marketplace',
+  title: 'Listings - Wrkx Marketplace',
+  description: 'Browse available listings on Wrkx Marketplace',
 }
 
 export default function ListingsLayout({

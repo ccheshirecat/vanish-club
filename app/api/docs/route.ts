@@ -7,7 +7,7 @@ export async function GET() {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "vanish.club API Documentation",
+        title: "wrkx API Documentation",
         version: "1.0.0",
       },
       components: {

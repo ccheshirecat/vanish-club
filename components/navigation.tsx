@@ -72,7 +72,7 @@ export function Navigation() {
 						href="/"
 						className="text-xl font-bold bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-transparent"
 					>
-						vanish.club
+						wrkx.app
 					</Link>
 					<NavbarContent />
 					<div className="md:hidden">

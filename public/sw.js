@@ -1,4 +1,4 @@
-const CACHE_NAME = "vanish-club-v1"
+const CACHE_NAME = "wrkx-app-v1"
 const urlsToCache = ["/", "/listings", "/vendor/dashboard", "/styles/globals.css", "/manifest.json"]
 
 self.addEventListener("install", (event) => {

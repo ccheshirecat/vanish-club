@@ -29,7 +29,7 @@ export default function RootLayout({
             <Navigation />
             <main className="flex-grow">{children}</main>
             <footer className="border-t border-gray-900/50 py-6 text-center text-sm text-gray-500">
-              <div className="container mx-auto px-4">© 2025 vanish.club. All rights reserved.</div>
+              <div className="container mx-auto px-4">© 2025 wrkx.app All rights reserved.</div>
             </footer>
             <Toaster />
           </AuthProvider>
