@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Error creating debug vendor:", error)
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 })
+      return NextResponse.json({ error:  error}, { status: 400 })
     }
     return NextResponse.json({ error: "Failed to create debug vendor" }, { status: 500 })
   }
