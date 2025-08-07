@@ -7,6 +7,34 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
 import { format } from "date-fns"
+import { Prisma } from "@prisma/client"
+
+type DisputeWithRelations = Prisma.DisputeGetPayload<{
+	include: {
+		user: {
+			select: {
+				id: true,
+				username: true,
+				displayName: true,
+				avatar: true,
+			}
+		},
+		vendor: {
+			select: {
+				id: true,
+				username: true,
+				displayName: true,
+				avatar: true,
+			}
+		},
+		listing: {
+			select: {
+				id: true,
+				title: true,
+			}
+		}
+	}
+}>
 
 export default async function AdminDisputesPage() {
 	const user = await auth()
@@ -47,7 +75,7 @@ export default async function AdminDisputesPage() {
 			<h1 className="text-2xl font-bold text-gray-100 mb-6">Dispute Management</h1>
 			
 			<div className="space-y-4">
-				{disputes.map((dispute) => (
+				{disputes.map((dispute: DisputeWithRelations) => (
 					<Card key={dispute.id} className="bg-gray-900/50 border-gray-800">
 						<div className="p-6 space-y-4">
 							<div className="flex items-center justify-between">
