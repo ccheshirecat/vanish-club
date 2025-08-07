@@ -7,34 +7,35 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
 import { format } from "date-fns"
-import { Prisma } from "@prisma/client"
 
-type DisputeWithRelations = Prisma.DisputeGetPayload<{
-	include: {
-		user: {
-			select: {
-				id: true,
-				username: true,
-				displayName: true,
-				avatar: true,
-			}
-		},
-		vendor: {
-			select: {
-				id: true,
-				username: true,
-				displayName: true,
-				avatar: true,
-			}
-		},
-		listing: {
-			select: {
-				id: true,
-				title: true,
-			}
-		}
+interface DisputeWithRelations {
+	id: string
+	reason: string
+	evidence: string | null
+	status: string
+	createdAt: Date
+	updatedAt: Date
+	resolvedAt: Date | null
+	listingId: string
+	userId: string
+	vendorId: string
+	user: {
+		id: string
+		username: string
+		displayName: string
+		avatar: string | null
 	}
-}>
+	vendor: {
+		id: string
+		username: string
+		displayName: string
+		avatar: string | null
+	}
+	listing: {
+		id: string
+		title: string
+	}
+}
 
 export default async function AdminDisputesPage() {
 	const user = await auth()
