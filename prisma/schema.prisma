@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Dispute {
+  id          String    @id @default(cuid())
+  reason      String
+  evidence    String?
+  status      String    @default("OPEN")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  resolvedAt  DateTime?
+
+  // Relations
+  listingId   String
+  listing     Listing   @relation(fields: [listingId], references: [id])
+  userId      String
+  user        User      @relation("UserDisputes", fields: [userId], references: [id])
+  vendorId    String
+  vendor      User      @relation("VendorDisputes", fields: [vendorId], references: [id])
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  username    String    @unique
+  displayName String
+  avatar      String?
+  email       String    @unique
+  password    String?
+  telegramId  String?   @unique
+  publicKey   String?   // Public key for message encryption
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isVendor      Boolean   @default(false)
+  isAdmin       Boolean   @default(false)
+  paymentMethods Json?    // For vendor payment details
+  isVerified    Boolean   @default(false)
+  reputation    Float?    // Vendor reputation score
+
+  // Relations
+  listings         Listing[]
+  sentMessages     Message[]  @relation("SentMessages")
+  receivedMessages Message[]  @relation("ReceivedMessages")
+  reviews          Review[]   @relation("UserReviews")
+  vendorReviews    Review[]   @relation("VendorReviews")
+  userDisputes     Dispute[]  @relation("UserDisputes")
+  vendorDisputes   Dispute[]  @relation("VendorDisputes")
+  favorites        Listing[]  @relation("UserFavorites")
+}
+
+model Listing {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  minPrice      Float?   // Optional min price for range
+  maxPrice      Float?   // Optional max price for range
+  contactPrice  Boolean  @default(false) // "Contact for pricing" option
+  category      String   @default("other")
+  images        Json[]   // Array of image URLs
+  variations    Json?    // Custom fields for variations
+  visibility    String   @default("PUBLIC") // PUBLIC or PRIVATE
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  reviews       Review[]
+  disputes      Dispute[]
+  favoritedBy   User[]   @relation("UserFavorites")
+}
+
+model Message {
+  id            String    @id @default(cuid())
+  content       String    // Encrypted content
+  encryptedKey  String    // AES key encrypted with recipient's public key
+  iv            String    // Initialization vector for AES
+  type          String    @default("INQUIRY") // INQUIRY or NEGOTIATION
+  createdAt     DateTime  @default(now())
+  expiresAt     DateTime?
+  
+  // Relations
+  senderId      String
+  sender        User      @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId    String
+  receiver      User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  
+  // Relations
+  userId      String
+  user        User    @relation("UserReviews", fields: [userId], references: [id])
+  vendorId    String
+  vendor      User    @relation("VendorReviews", fields: [vendorId], references: [id])
+  listingId   String
+  listing     Listing @relation(fields: [listingId], references: [id])
+}
+
